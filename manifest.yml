@@ -1,31 +1,29 @@
 application:
-    subdomain: drizzle-gate
-    public_path:
-        - /
-    upstreams:
-        - location: /
-          backend: http://drizzle-gate:4983/
-    background_task: true
-    injects:
-        - id: drizzle-gate-masterpass-autofill
-          on: browser
-          when:
-              - /*
-          do:
-              - src: builtin://simple-inject-password
-                params:
-                    password: "{{ .U.admin_password }}"
-                    requireUser: false
-                    allowPasswordOnly: true
-
+  subdomain: drizzle-gate
+  public_path:
+    - /
+  upstreams:
+    - location: /
+      backend: http://drizzle-gate:4983/
+  background_task: true
+  injects:
+    - id: drizzle-gate-masterpass-autofill
+      on: browser
+      when:
+        - /*
+      do:
+        - src: builtin://simple-inject-password
+          params:
+            password: "{{ .U.admin_password }}"
+            requireUser: false
+            allowPasswordOnly: true
 services:
-    drizzle-gate:
-        # upstream: ghcr.io/drizzle-team/gateway:1.0.1
-        image: registry.lazycat.cloud/czyt/drizzle-team/gateway:096ed2e1539ad937
-        environment:
-            - MASTERPASS={{ .U.admin_password }}
-            - PORT=4983
-            - STORE_PATH=/app
-
-        binds:
-            - /lzcapp/var/data:/app
+  drizzle-gate:
+    # upstream: ghcr.io/drizzle-team/gateway:1.4.1
+    image: registry.lazycat.cloud/czyt/drizzle-team/gateway:3381d075b6c2bc1c
+    environment:
+      - MASTERPASS={{ .U.admin_password }}
+      - PORT=4983
+      - STORE_PATH=/app
+    binds:
+      - /lzcapp/var/data:/app

@@ -1,15 +1,13 @@
 package: lazycat.community.app.drizzle-gate
-version: 1.0.1
+version: 1.4.1
 name: Drizzle Gateway
 description: "Free self-hosted Drizzle Studio on steroids."
 author: drizzle team
 homepage: https://gateway.drizzle.team
 min_os_version: 1.5.0
-
 permissions:
   required:
     - net.internet
-
 locales:
   zh:
     name: Drizzle Gateway
