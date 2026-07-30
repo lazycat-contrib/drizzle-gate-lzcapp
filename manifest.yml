@@ -1,26 +1,29 @@
-name: Drizzle Gateway
-package: lazycat.community.app.drizzle-gate
-version: 1.0.1
-min_os_version: 1.3.8
-description: 免费托管增强版 Drizzle Studio
-homepage: https://gateway.drizzle.team
-author: drizzle team
 application:
     subdomain: drizzle-gate
     public_path:
         - /
-    routes:
-        - /=http://drizzle-gate:4983
+    upstreams:
+        - location: /
+          backend: http://drizzle-gate:4983/
     background_task: true
+    injects:
+        - id: drizzle-gate-masterpass-autofill
+          on: browser
+          when:
+              - /*
+          do:
+              - src: builtin://simple-inject-password
+                params:
+                    password: "{{ .U.admin_password }}"
+                    requireUser: false
+                    allowPasswordOnly: true
 
 services:
     drizzle-gate:
-        # ghcr.io/drizzle-team/gateway:1.0.1
+        # upstream: ghcr.io/drizzle-team/gateway:1.0.1
         image: registry.lazycat.cloud/czyt/drizzle-team/gateway:096ed2e1539ad937
         environment:
-            # Admin password for the web interface
-            - MASTERPASS={{ .U.admin_password}}
-            # Database configuration
+            - MASTERPASS={{ .U.admin_password }}
             - PORT=4983
             - STORE_PATH=/app
 
