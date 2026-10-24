@@ -19,8 +19,8 @@ application:
             allowPasswordOnly: true
 services:
   drizzle-gate:
-    # upstream: ghcr.io/drizzle-team/gateway:1.6.2
-    image: registry.lazycat.cloud/czyt/drizzle-team/gateway:2c7f4c9f725f59da
+    # upstream: ghcr.io/drizzle-team/gateway:1.7.0
+    image: registry.lazycat.cloud/czyt/drizzle-team/gateway:df2e4ea537fa3420
     environment:
       - MASTERPASS={{ .U.admin_password }}
       - PORT=4983
